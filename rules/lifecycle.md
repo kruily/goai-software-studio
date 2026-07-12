@@ -36,7 +36,7 @@
 - 前端/客户端形态（Web / Admin / 移动端 / 服务端渲染）
 - UI 设计 MCP（Magic / Figma / shadcn，多选）
 - 代码智能工具（gopls 默认 / Serena / CGC）
-- module 前缀（默认 `github.com/kruily/{project}`，可自定义）
+- module 前缀，`bootstrap-project` 会询问确认
 
 确认后：脚手架化目录、用改造版 goctl 模板生成后端骨架、写好 `.mcp.json` 与四端配置、`openspec init`，并产出**技术选型文档 `rules/tech-selection.md`**（记录所有选型决定，供整个工作室共享参考）。
 

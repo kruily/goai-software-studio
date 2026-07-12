@@ -49,7 +49,7 @@ cd my-project
 `project-manager` agent 会自动启动 `bootstrap-project` 技能，依次完成：
 - 和你聊想法 → 产出 `PROJECT.md`（项目设定文档）
 - 推荐技术架构（单体/微服务、数据库、队列、前端等）
-- 替换 module 前缀 `GOAI_MODULE` 为你的项目名（如 `github.com/kruily/myapp`）
+- 替换 module 前缀 `GOAI_MODULE` 为你的项目名（如 `github.com/myorg/myapp`）
 - 写四端 agent 配置与 MCP
 - 初始化 openspec，准备开始功能迭代
 

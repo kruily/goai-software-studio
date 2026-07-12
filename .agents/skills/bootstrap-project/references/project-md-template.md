@@ -41,7 +41,7 @@ TODO：这个产品是什么、为谁解决什么问题。
 | 维度 | 选型 |
 |------|------|
 | 架构 | TODO：单体 / 微服务 |
-| module 前缀 | TODO：github.com/kruily/{project} |
+| module 前缀 | TODO：github.com/{organization}/{project} |
 | 数据库 | TODO |
 | 消息队列 | TODO |
 | 对象存储 | TODO |

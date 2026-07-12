@@ -43,7 +43,7 @@ description: 开新项目时使用。访谈用户产出项目设定文档 PROJEC
 依据 PROJECT.md 的非功能约束，给出**带理由的推荐**，逐项与用户确认。参考 `rules/tech-stack-catalog.md`：
 
 - **架构**：单体 / 微服务。规模小、边界未清晰 → 推荐单体（可后续演进）；已知多团队/强隔离 → 微服务。
-- **module 前缀**：默认 `github.com/kruily/{project}`，询问是否自定义。
+- **module 前缀**：询问用户确认 module 前缀。推荐格式 `github.com/{organization}/{project}`，纯本地可直接用项目名。
 - **数据库**：PostgreSQL / MySQL（GORM 驱动）。
 - **消息队列**：需要异步 → Asynq(Redis) / Kafka；否则先只留 taskqueue 抽象不接实现。
 - **对象存储**：MinIO(开发) / OSS / S3。
