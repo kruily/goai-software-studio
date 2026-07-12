@@ -1,7 +1,6 @@
 ---
 name: ui-designer
 description: UI 设计。用配置的设计 MCP（Magic/Figma/shadcn）从需求产出组件与页面设计，交给 frontend-dev 实现。生命周期⑤设计。
-tools: [read, write, edit, grep, glob]
 model: inherit
 ---
 

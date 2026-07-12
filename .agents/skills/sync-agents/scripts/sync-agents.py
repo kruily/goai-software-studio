@@ -10,7 +10,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.d
 SRC = os.path.join(ROOT, '.agents/agents')
 TARGETS = {
     '.claude/agents': {'tools': lambda s: ' '.join(w.capitalize() for w in s.split(', ')) if s else s},
-    '.opencode/agents': {'tools': lambda s: '[' + ', '.join(w.strip() for w in s.split(',')) + ']' if s else s},
+    '.opencode/agents': {'tools': lambda s: None},  # opencode 的 agent schema 需要 object 格式，移除 tools 使用默认
     '.pi/agents': {'tools': lambda s: '[' + ', '.join(w.strip() for w in s.split(',')) + ']' if s else s},
 }
 CODEX_DIR = os.path.join(ROOT, '.codex/agents')
@@ -48,13 +48,10 @@ def main():
 
             # MD 端
             for tdir, transforms in TARGETS.items():
-                lines = [
-                    '---',
-                    f'name: {name}',
-                    f'description: {desc}',
-                    f'tools: {transforms["tools"](tools)}',
-                    f'model: {model}',
-                ]
+                tf = transforms['tools'](tools)
+                lines = ['---', f'name: {name}', f'description: {desc}', f'model: {model}']
+                if tf is not None:
+                    lines.insert(3, f'tools: {tf}')
                 if skills:
                     lines.append(f'skills: {skills}')
                 lines.append('---')
