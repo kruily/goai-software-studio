@@ -34,15 +34,18 @@ description: 当一个功能的 tasks.md 就绪、需要把多个可并行任务
 - 会改同一批文件的任务**串行**，或用隔离工作区避免冲突。
 - 后端任务让 sub-agent 调用对应技能（add-api/add-model/add-worker-task）。
 
-### 4. 汇总与兜底
+### 4. 汇总与兜底（含测试触发）
 
 - 收集各 sub-agent 结果，汇总改动文件。
 - 运行 `code-reviewer` 子 agent 按工作室规范检查边界违规。
 - 在 `backend/` 下 `go build ./...` 验证整体构建。
+- **触发 test-engineer**：汇总后通知 test-engineer agent 调用 `generate-tests` 技能，为本次新增/改动的接口生成测试。测试通过后才进入回写。
+- 若 test-engineer 发现 bug → 返回给对应 sub-agent 修复 → 重新 code-review → 重新测试。
 
 ### 5. 回写
 
 - 更新 `tasks.md` 勾选完成项。
+- 确认 test-engineer 的测试结果已通过。
 - 交给 spec-driven 走 archive（回写 specs 与 PROJECT.md）。
 
 ## 完成后

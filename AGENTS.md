@@ -74,6 +74,7 @@
 | 后端 | `add-worker-task` | 加异步任务（mq 消费者） |
 | 后端 | `add-infra-adapter` | 实现 pkg 抽象的新适配器 |
 | 前端 | `scaffold-frontend` | 按选型初始化前端项目 |
+| 部署 | `scaffold-deploy` | 按选型生成 nginx/Dockerfile/compose/CI 配置 |
 | 测试 | `generate-tests` | 从 OpenSpec spec 场景生成 Go 单元/集成测试 |
 | 测试 | `e2e-runner` | 用 Playwright 执行浏览器 E2E 测试 |
 | 测试 | `load-test` | 用 k6 执行 API 负载/压力测试 |
@@ -114,6 +115,6 @@ gofmt -w <files>               # 格式化
 
 ## 安全
 
-- `docker-compose` / `.env.example` 中的凭证均为开发默认值，**不提交生产密钥**。
+- `docker-compose` / `.env` 中的凭证均为开发默认值，**不提交生产密钥**。
 - 密钥、AccessSecret 等禁止入库、入日志、下发客户端。
 - AI/存储/队列供应商一律走抽象接口。

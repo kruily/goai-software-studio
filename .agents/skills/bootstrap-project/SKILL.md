@@ -51,21 +51,91 @@ description: 开新项目时使用。访谈用户产出项目设定文档 PROJEC
 - **UI 设计 MCP**（可多选）：Magic(21st.dev) / Figma / shadcn。让用户选自己可用的。
 - **代码智能工具**：gopls（默认必装）/ Serena（推荐）/ CodeGraphContext（可选加装）。
 
-### 阶段 3：脚手架化
+### 阶段 3：脚手架化（逐一执行以下步骤）
 
-按确认的架构落地（不手写 goctl 生成物，用改造版模板 `--home ./backend/shared/goctl`）：
+按确认的架构落地。不手写 goctl 会生成的文件。以下步骤逐一执行，每步完成后向用户报告。
 
-1. **替换 module 前缀**：替换所有 `GOAI_MODULE` 为真实 module 名（如 `github.com/kruily/myapp`）。在 backend 目录下运行：
-   ```bash
-   find . -type f \( -name "*.go" -o -name "*.tpl" -o -name "go.mod" \) -exec sed -i '' 's/GOAI_MODULE/github.com\/kruily\/myapp/g' {} \;
-   ```
-   或将 `GOAI_MODULE` 修改写入 `backend/scripts/replace-module.sh` 供重复使用。
-2. **后端骨架**：
-   - 单体：用 goctl 依 `.api` 在 `api/` 生成入口 `{module}.api.go`（ServiceContext 挂载 mq/cron），补 `database.MustOpen` 等实现。
-   - 微服务：建 `go.work`，首个模块用 goctl 生成 api/rpc。
-   - 依所选驱动补全 `shared/pkg/database`（pg/mysql/sqlite）、`storage` 适配器（可调用 add-infra-adapter 技能）。
-3. **前端/客户端**：调用 `scaffold-frontend` 技能，按选型用官方脚手架生成顶层目录。
-4. **deploy/**：按选型生成 docker/compose/nginx 等基础物料。
+**Step 3.1：替换 module 前缀**
+```bash
+find . -type f \( -name "*.go" -o -name "*.tpl" -o -name "go.mod" \) -exec sed -i '' 's/GOAI_MODULE/{选定的module}/g' {} \;
+```
+验证：`cd backend && go build ./...` 通过。
+
+**Step 3.2：创建首个模块目录（单体选择 user 为模板）**
+```
+backend/
+└── {module_name}/          # 如 user、order
+    ├── api/desc/import.api  # 空 import.api
+    ├── api/desc/front/      # .api 定义文件目录
+    ├── api/etc/             # go-zero 配置 yaml
+    ├── api/internal/config/ # 配置代码
+    ├── api/internal/handler/
+    ├── api/internal/logic/
+    ├── api/internal/svc/
+    ├── api/internal/types/
+    ├── api/internal/middleware/
+    ├── mq/internal/handler/  # MQ 消费者（手写，goctl 不生成）
+    ├── mq/internal/logic/
+    ├── mq/internal/svc/
+    ├── mq/internal/config/
+    ├── cron/internal/handler/ # 定时任务（手写，goctl 不生成）
+    ├── cron/internal/logic/
+    ├── cron/internal/svc/
+    └── cron/internal/config/
+```
+新建后不用手写细节，让 goctl 负责生成 handler/logic/svc/types 骨架。
+
+**Step 3.3：写 .api 定义**
+在 `{module}/api/desc/front/{domain}.api` 按规范定义首条接口（例如 `post /getProfile`）：
+```go
+syntax = "v1"
+
+type GetProfileReq {
+    Id int64 `json:"id"`
+}
+
+type GetProfileResp {
+    Id   int64  `json:"id"`
+    Name string `json:"name"`
+}
+
+@server (
+    prefix: /api/v1/front/{domain}
+    group:  {domain}
+)
+service app-api {
+    @doc "获取资料"
+    @handler GetProfile
+    post /getProfile (GetProfileReq) returns (GetProfileResp)
+}
+```
+更新 `import.api`：`import "front/{domain}.api"`。
+
+**Step 3.4：调用 gen-api.sh 生成代码**
+```bash
+backend/scripts/gen-api.sh {module}/api/desc/import.api
+```
+验证：`cd backend && go build ./...` 通过。
+此时 `{module}/api/internal/` 下已生成 handler/logic/svc/types/config/routes。
+
+**Step 3.5：实现 logic 占位**
+在生成的 `{module}/api/internal/logic/` 下，找到生成的方法签名，
+在 TODO 位置填入最小实现（至少能返回 success 响应），确保 HTTP 端到端可通。
+
+**Step 3.6：按数据库选型补全驱动**
+按选型补 database driver。例如选 PostgreSQL：
+- 在 `go.mod` 加 `gorm.io/driver/postgres`
+- 在 `shared/pkg/database/database.go` 的 `openPostgres` 中填入 `gorm.Open(postgres.Open(dsn), &gorm.Config{})`
+- `go mod tidy && go build ./...` 验证
+
+**Step 3.7：建 model 基础模型**
+按 gorm-add-model 规范在 `model/{domain}/` 建首个模型（可空但目录和 register 必须存在）。
+
+**Step 3.8：前端/客户端**
+若选了前端/客户端形态，调用 `scaffold-frontend` 技能。
+
+**Step 3.9：deploy/ 基础**
+调用 `scaffold-deploy` 技能生成 Dockerfile、docker-compose、nginx（若微服务）配置。
 
 ### 阶段 4：写四端配置与 MCP
 

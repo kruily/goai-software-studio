@@ -197,4 +197,4 @@ backend/scripts/gen-model.sh <pg|mysql> <dsn> <table> <out>   # 生成 model
 ## 10. 安全
 
 - 密钥、AccessSecret 禁止硬编码、入库、入日志、下发客户端。
-- `docker-compose` / `.env.example` 凭证均为开发默认值，不提交生产密钥。
+- `docker-compose` / `.env` 中的凭证均为开发默认值，不提交生产密钥。

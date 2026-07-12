@@ -1,5 +1,6 @@
 # 环境变量示例（开发默认值，勿放生产密钥）。
-# 复制为 .env 使用；.env 已被 .gitignore 忽略。
+# 复制到项目根 .env 使用；.env 已被 .gitignore 忽略。
+# 由 scaffold-deploy 技能生成。
 
 # --- 服务 ---
 APP_ENV=dev

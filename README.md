@@ -96,7 +96,7 @@ cd my-project
 ├── .claude/                      # Claude 版 agents + skills symlink
 ├── PROJECT.md                    # 项目设定文档（bootstrap 生成，开始后存在）
 ├── openspec/                     # 功能级 spec（OpenSpec）
-├── rules/                        # 10 份工作室固定规范文档
+├── rules/                        # 12 份工作室固定规范文档
 ├── backend/                      # Go 后端（go-zero），见 backend/README.md
 │   ├── shared/                   # pkg 抽象 + utils + goctl 模板（可编译）
 │   ├── model/                    # GORM 模型（BaseRepo 泛型）
@@ -119,6 +119,8 @@ cd my-project
 | `rules/code-intelligence.md` | gopls / Serena / CGC 代码智能工具 |
 | `rules/recommended-skills.md` | 按 agent 推荐的外部社区技能 |
 | `rules/testing-conventions.md` | Go 测试规范（单测/集测/E2E/load） |
+| `rules/template-boundary.md` | 模板三层边界模型与设计哲学 |
+| `rules/service-split-patterns.md` | 微服务拆分决策（5 症状 + 拆分步骤） |
 
 ## 约定
 
