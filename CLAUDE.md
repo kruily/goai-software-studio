@@ -13,7 +13,7 @@
 
 ## 子 agent（专职 agent）
 
-8 个专职 agent 定义在 `.claude/agents/`，由 `sync-agents.py` 从 `.agents/agents/` 真源自动生成：
+8 个专职 agent 定义在 `.claude/agents/`，由 sync-agents 技能（`.agents/skills/sync-agents/scripts/sync-agents.py`）从 `.agents/agents/` 真源自动生成：
 
 | agent | 职责 | 绑定技能 |
 |-------|------|---------|

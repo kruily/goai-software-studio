@@ -35,7 +35,7 @@
 ├── backend/                         # Go 后端（go-zero），见 backend/README.md
 ├── frontend/ admin-web/ mobile/ ... # 前端/客户端，平铺，由脚手架生成
 ├── deploy/                          # 运维部署（docker/compose/k8s/nginx/ci/env）
-└── backend/scripts/             # setup-agents.sh / sync-agents.py / gen-*.sh
+└── backend/scripts/             # setup-agents.sh / gen-*.sh
 ```
 
 ## 后端开发规范

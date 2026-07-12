@@ -12,7 +12,7 @@
 ### Agent 层
 - [x] 8 个 agent 定义 × 5 端同步（40 文件）
 - [x] 真源 `.agents/agents/` → 自动生成到 `.claude/` / `.codex/` / `.opencode/` / `.pi/`
-- [x] sync-agents.py 同步脚本
+- [x] sync-agents.py 同步脚本（置于 sync-agents 技能 scripts/ 下）
 
 ### Skills 层
 - [x] 13 个技能：

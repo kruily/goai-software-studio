@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """sync-agents.py — 从 .agents/agents/ 真源同步到四端。
 
-用法: python3 backend/scripts/sync-agents.py
+用法: python3 .agents/skills/sync-agents/scripts/sync-agents.py
 从仓库根执行。
 """
 import os, re, sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 SRC = os.path.join(ROOT, '.agents/agents')
 TARGETS = {
     '.claude/agents': {'tools': lambda s: ' '.join(w.capitalize() for w in s.split()) if s else s},

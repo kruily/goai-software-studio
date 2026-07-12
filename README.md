@@ -100,7 +100,7 @@ cd my-project
 ├── backend/                      # Go 后端（go-zero），见 backend/README.md
 │   ├── shared/                   # pkg 抽象 + utils + goctl 模板（可编译）
 │   ├── model/                    # GORM 模型（BaseRepo 泛型）
-│   └── scripts/                  # gen-*.sh / setup-agents.sh / sync-agents.py
+│   └── scripts/                  # gen-*.sh / setup-agents.sh
 ├── deploy/                       # 运维部署约束说明 + env 示例
 └── frontend/ admin-web/ mobile/  # 前端/客户端（bootstrap 生成，顶层平铺）
 ```
@@ -141,5 +141,5 @@ backend/scripts/gen-api.sh order/api/...    # 其他模块
 backend/scripts/gen-rpc.sh <proto> <out>    # 生成 zRPC
 backend/scripts/gen-model.sh <pg|mysql>     # 从数据库生成 model
 backend/scripts/setup-agents.sh             # 安装工具链
-python3 backend/scripts/sync-agents.py      # 从真源同步 agent 到四端
+# agent 同步在 sync-agents 技能的 SKILL.md 中有说明
 ```

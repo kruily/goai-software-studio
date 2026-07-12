@@ -35,7 +35,6 @@ bootstrap 之后，项目不会立刻"跑起来"给你看。
 │  backend/shared/goctl/           改造版 goctl 模板     │
 │  backend/model/base/             BaseRepo 泛型 CRUD    │
 │  backend/scripts/gen-*.sh        生成脚本              │
-│  backend/scripts/sync-agents.py   agent 同步脚本        │
 └──────────────────────────────────────────────────────┘
 
 注意：
