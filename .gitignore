@@ -1,0 +1,38 @@
+# --- 环境与密钥 ---
+.env
+.env.local
+*.local
+
+# --- Go ---
+/backend/bin/
+*.exe
+*.out
+vendor/
+# go build/test 缓存产物
+*.test
+
+# --- 日志/临时 ---
+logs/
+*.log
+tmp/
+*.tmp
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+
+# --- 前端（bootstrap 生成后各自的 .gitignore 会补充）---
+node_modules/
+dist/
+build/
+.next/
+
+# --- agent 本地私有配置（不提交）---
+CLAUDE.local.md
+.claude/settings.local.json
+.mcp.local.json

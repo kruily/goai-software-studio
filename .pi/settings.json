@@ -1,0 +1,9 @@
+{
+  "$comment": "pi agent 项目设置。pi 原生读取仓库的 AGENTS.md 作为上下文；本文件放 pi 专属设置。",
+  "mcpServers": {
+    "gopls": {
+      "command": "gopls",
+      "args": ["mcp"]
+    }
+  }
+}

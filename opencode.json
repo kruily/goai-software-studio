@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "$comment": "专职 agent 定义在 .opencode/agents/*.md（由 .agents/agents 真源经 sync-agents 生成），opencode 原生读取，此处不重复配置。",
+  "instructions": [
+    "AGENTS.md",
+    "rules/lifecycle.md",
+    "rules/backend-spec.md",
+    "rules/agents-guide.md"
+  ],
+  "mcp": {
+    "gopls": {
+      "type": "local",
+      "command": ["gopls", "mcp"],
+      "enabled": true
+    },
+    "serena": {
+      "type": "local",
+      "command": ["serena", "start-mcp-server", "--context", "opencode", "--project-from-cwd"],
+      "enabled": false
+    }
+  }
+}

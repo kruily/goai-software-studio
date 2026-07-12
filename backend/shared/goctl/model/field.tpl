@@ -1,0 +1,1 @@
+{{.name}} {{ if eq .dbType "sql.NullString" }}string{{ else }}{{.type}}{{ end }} {{.tag}} {{if .hasComment}}// {{.comment}}{{end}}

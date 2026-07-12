@@ -1,0 +1,13 @@
+# Codex 项目配置。
+# 规范真源为仓库根的 AGENTS.md，Codex 启动时自动读取（从 git 根向 cwd 逐级合并）。
+# 本文件仅放 Codex 的行为/工具设置，不重复规范内容。
+
+# 代码智能 MCP：与 .mcp.json 保持一致。
+[mcp_servers.gopls]
+command = "gopls"
+args = ["mcp"]
+
+# Serena 默认关闭，需要时改 enabled 或手动启动。
+# [mcp_servers.serena]
+# command = "serena"
+# args = ["start-mcp-server", "--context", "codex", "--project-from-cwd"]
