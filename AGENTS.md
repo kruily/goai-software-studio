@@ -11,15 +11,16 @@
 
 ## 开发生命周期（核心工作流）
 
-详见 `rules/lifecycle.md`。五步：
+详见 `rules/lifecycle.md`。六步：
 
 1. **想法** — 一句话或一段话描述要做什么。
-2. **项目设定** — `bootstrap-project` 技能访谈，产出/更新 `PROJECT.md`（活文档：产品定位、目标用户、核心功能清单、非功能约束、里程碑）。
-3. **技术架构** — 依据 `PROJECT.md` 推荐并确认架构（单体/微服务、数据库、队列、存储、前端、设计工具、代码智能工具），脚手架化并写回四端配置、初始化 `openspec/`。
-4. **功能迭代** — 用 OpenSpec：`/opsx:propose <功能>` 产出 `proposal/design/tasks`，`apply` 实现，`archive` 回写 `openspec/specs` 与 `PROJECT.md`。
-5. **UI 设计 + 派发** — 用选配的设计 MCP 出 UI，`dispatch-dev` 按 `tasks.md` 派发 sub-agents 实现，`code-reviewer` 兜底。
+2. **项目设定** — `bootstrap-project` 访谈产出 `PROJECT.md` 并确定技术架构，脚手架化、写四端配置、初始化 `openspec/`。
+3. **功能规划** — 按功能迭代。PM 产出 `proposal.md`（需求细化），UI Designer 产出设计稿，Tech Lead 产出 `design.md`（架构+API 契约）和 `tasks.md`（任务拆分）。每步有评审门（PRD 签批 → 设计签批 → API 冻结 → Sprint 承诺）。
+4. **实现 + 测试** — `dispatch-dev` 派发 sub-agents 并行开发前端+后端。`code-reviewer` 每 PR 审查。`test-engineer` 按 spec 持续产出测试。PM 做 UAT 验收。
+5. **部署 + 发布** — DevOps 构建部署，Test Engineer 部署后测试，PM + DevOps 做发布决策。
+6. **复盘 + Archive** — OpenSpec archive 合并 specs，回写 `PROJECT.md`，回顾。
 
-**PROJECT.md vs openspec/**：`PROJECT.md` 是全局产品蓝图（粗、稳）；`openspec/` 是功能级增量（细、频繁）。archive 时增量回流，`PROJECT.md` 保持当前全貌。
+**PROJECT.md vs openspec/**：`PROJECT.md` 是全局产品蓝图（粗、稳）；`openspec/` 是功能级增量（细、频繁）。archive 时增量回流，`PROJECT.md` 保持当前全貌。每个功能经过 7 道 Gate（PRD 签批 → 设计签批 → API 冻结 → Sprint 承诺 → CR 通过 → UAT 通过 → 发布门）后才关闭。
 
 ## 仓库结构
 
@@ -29,7 +30,7 @@
 ├── opencode.json / .codex / .pi     # 四端 agent 配置
 ├── PROJECT.md                       # 项目设定文档（bootstrap 生成，开始项目后存在）
 ├── openspec/                        # 功能级 spec（proposal/design/tasks + specs 真源）
-├── rules/                            # 工作室固定规范文档（生命周期/后端/前端/测试）
+├── rules/                            # 工作室固定规范文档（生命周期/Gate/agent/后端/前端/测试）
 ├── .agents/skills/                  # 工具型技能真源（Agent Skills 标准格式，四端通用）
 ├── .claude/skills -> ../.agents/skills  # symlink，让 Claude Code 读到同一批技能
 ├── backend/                         # Go 后端（go-zero），见 backend/README.md

@@ -1,5 +1,5 @@
 name = "backend-dev"
-description = """Go 后端开发。用 go-zero 实现 API/RPC/MQ/CRON、GORM 模型、pkg 适配器。严格遵循工作室后端规范：不手写 goctl 生成物、基础设施走抽象、统一响应体不入 .api。生命周期⑤后端实现。"""
+description = """Go 后端开发。用 go-zero 实现 API/RPC/MQ/CRON、GORM 模型、pkg 适配器。严格遵循工作室后端规范：不手写 goctl 生成物、基础设施走抽象、统一响应体不入 .api。生命周期④a后端实现。"""
 developer_instructions = """
 # backend-dev（Go 后端开发）
 

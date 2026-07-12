@@ -1,20 +1,17 @@
 ---
 name: dispatch-dev
-description: 当一个功能的 tasks.md 就绪、需要把多个可并行任务派发给 sub-agents 并行开发时使用。读取 openspec/changes/<name>/tasks.md，拆分任务、派发实现、汇总结果，并用 code-reviewer 兜底检查。是生命周期第⑤步的派发编排技能。
+description: 当功能规划完成（tasks.md 就绪）后，把多个可并行任务派发给 sub-agents 并行开发。生命周期第④步（实现+测试）的编排技能。
 ---
 
 # dispatch-dev
 
-你把一个功能的任务清单派发给 sub-agents 并行实现，对应生命周期第 ⑤ 步。
+你把一个功能的 tasks.md 派发给 sub-agents 并行实现，对应生命周期第 ④ 步（实现 + 测试）。
 
 ## 使用时机
 
-- 某个 OpenSpec change 的 `tasks.md` 已产出，任务较多或可并行。
-- 用户说"派发开发""并行实现这些任务""开始做这个 change"。
-
-## 前置
-
-- 存在 `openspec/changes/<name>/tasks.md`（由 spec-driven / OpenSpec propose 产出）。
+- 功能规划已完成（③a-③d 所有门已通过），`tasks.md` 已就绪。
+- PM 说"可以开始开发了"或用户说"实现这个功能"。
+- **不要**在③c（API 冻结）之前派发实现——没有契约后端和前端都会跑偏。
 
 ## 执行流程
 
@@ -34,19 +31,19 @@ description: 当一个功能的 tasks.md 就绪、需要把多个可并行任务
 - 会改同一批文件的任务**串行**，或用隔离工作区避免冲突。
 - 后端任务让 sub-agent 调用对应技能（add-api/add-model/add-worker-task）。
 
-### 4. 汇总与兜底（含测试触发）
+### 4. 汇总、审查与测试
 
 - 收集各 sub-agent 结果，汇总改动文件。
-- 运行 `code-reviewer` 子 agent 按工作室规范检查边界违规。
+- 运行 `code-reviewer` 子 agent 按工作室规范检查边界违规（④b）。
 - 在 `backend/` 下 `go build ./...` 验证整体构建。
-- **触发 test-engineer**：汇总后通知 test-engineer agent 调用 `generate-tests` 技能，为本次新增/改动的接口生成测试。测试通过后才进入回写。
-- 若 test-engineer 发现 bug → 返回给对应 sub-agent 修复 → 重新 code-review → 重新测试。
+- test-engineer 在③a 后就已按 spec 场景持续产出测试。汇总时确认所有测试已通过。
+- 若测试未通过 → 返回给对应 sub-agent 修复 → 重新 code-review → 重新测试。
 
-### 5. 回写
+### 5. 回写 + UAT
 
 - 更新 `tasks.md` 勾选完成项。
-- 确认 test-engineer 的测试结果已通过。
-- 交给 spec-driven 走 archive（回写 specs 与 PROJECT.md）。
+- 确认 code-reviewer 已通过、test-engineer 测试已通过。
+- 通知 PM 进行 UAT 验收（④d）。PM 确认验收标准满足后，交给 spec-driven 走 archive（⑥）。
 
 ## 完成后
 

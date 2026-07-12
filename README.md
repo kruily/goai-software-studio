@@ -16,11 +16,12 @@ opencode / pi** 四类 AI agent 一致理解与驱动。
 ## 开发生命周期
 
 ```
-① 想法  → ② project-manager: PROJECT.md
-   → ③ tech-lead: 定架构+脚手架
-   → ④ OpenSpec 功能迭代(propose/apply/archive)
-   → ⑤ 派发实现: backend-dev/frontend-dev/ui-designer/devops
-     → code-reviewer 边界审查 → test-engineer 生成测试+执行+报 bug
+① 想法
+   → ② 项目设定: PROJECT.md + 技术选型 + 脚手架 + openspec init
+   → ③ 功能规划: 需求(proposal) → 设计(UI稿) → 架构(API) → 任务拆分(tasks)
+   → ④ 实现+测试: 前后端并行 + code-review + 持续测试 + UAT
+   → ⑤ 部署+发布: 构建部署 + 部署后测试 + 发布决策
+   → ⑥ 复盘+Archive: archive specs + 回写 PROJECT.md + 回顾
 ```
 
 详见 `rules/lifecycle.md` 与 `rules/agents-guide.md`。

@@ -1,17 +1,36 @@
 # 开发生命周期
 
-本工作室把一个想法推进到上线代码，走固定的五步。每一步有对应的产物、技能与工具。
+本工作室把一个想法推进到上线代码，走固定的六步。每步有对应的 agent、产物与评审门。
 
 ```
 ① 想法
    ↓
-② 项目设定 —— bootstrap-project 访谈 → PROJECT.md（活文档）
+② 项目设定（bootstrap-project）
+   ├── PM 需求访谈 → PROJECT.md
+   └── Tech Lead 技术选型 + 脚手架 + openspec init
+   ↓  ← Gate: 项目就绪（用户确认 PROJECT.md + 选型）
+③ 功能规划（per feature，OpenSpec propose）
+   ├── ③a PM 需求细化 → proposal.md  ← Gate: PRD 签批
+   ├── ③b UI Designer 设计 → 线框/高保真/原型  ← Gate: 设计签批
+   ├── ③c Tech Lead 技术架构 → design.md + API 契约  ← Gate: API 冻结
+   └── ③d Tech Lead 任务拆分 → tasks.md  ← Gate: Sprint 承诺
+   ↓  ← Gate: 规划完成
+④ 实现 + 测试（OpenSpec apply）
+   ├── ④a Frontend Dev + Backend Dev 并行开发
+   ├── ④b Code Reviewer 每次 PR 审查  ← Gate: CR 通过
+   ├── ④c Test Engineer 按 spec 场景持续产出测试
+   └── ④d PM UAT 验收  ← Gate: UAT 通过
+   ↓  ← Gate: 实现完成
+⑤ 部署 + 发布
+   ├── ⑤a DevOps 构建部署 + CI
+   ├── ⑤b Test Engineer 部署后测试（E2E + 负载）
+   └── ⑤c PM + DevOps 发布决策  ← Gate: 发布
    ↓
-③ 技术架构 —— 依据 PROJECT.md 定架构 → 脚手架化 + 写四端配置 + 初始化 openspec/
-   ↓
-④ 功能迭代 —— OpenSpec：/opsx:propose → apply → archive（回写 specs 与 PROJECT.md）
-   ↓
-⑤ UI 设计 + 派发 —— 设计 MCP 出 UI → dispatch-dev 派发 sub-agents 实现 → code-reviewer 兜底
+⑥ 复盘 + Archive
+   ├── ⑥a Tech Lead OpenSpec archive → specs 合并
+   ├── ⑥b PM 回写 PROJECT.md + 变更记录
+   └── ⑥c 团队回顾
+   ↓（循环：下一个功能，回到 ③）
 ```
 
 ---
@@ -20,54 +39,211 @@
 
 一句话或一段话说明要做什么产品、解决什么问题、大致规模。信息不必完整——第 ② 步会补齐。
 
-## ② 项目设定 → `PROJECT.md`
+**Agent:** 用户 + PM（project-manager）
+**Gate:** 无（想法清晰即可进入 setup）
 
-运行 `bootstrap-project`，它先访谈**够定架构的最小信息**（产品定位、目标用户、核心功能、是否需要实时/异步/AI、规模量级），产出 `PROJECT.md`。
+---
 
-- `PROJECT.md` 是**活文档**：全局产品蓝图，粗粒度、稳定、少变。
-- 后续每次功能迭代（第 ④ 步）结束时回写更新，始终反映"当前全貌"。
+## ② 项目设定（Project Setup）
 
-## ③ 技术架构
+运行 `bootstrap-project`。
 
-`bootstrap-project` 依据 `PROJECT.md` 推荐并与你确认：
+**②a PM 需求访谈：** 访谈产品定位、目标用户、核心功能、非功能约束，产出 `PROJECT.md`。
+**②b Tech Lead 技术选型咨询：** 逐项推荐并确认架构（单体/微服务）、数据库、队列、存储、前端形态、UI 设计 MCP、module 前缀。
+**②c 初始化：** 脚手架化后端目录、替换 `GOAI_MODULE`、写 `.mcp.json` 与四端配置、`openspec init`、产出 `rules/tech-selection.md`。
 
-- 架构：单体 / 微服务
-- 数据库、消息队列、对象存储选型
-- 前端/客户端形态（Web / Admin / 移动端 / 服务端渲染）
-- UI 设计 MCP（Magic / Figma / shadcn，多选）
-- 代码智能工具（gopls 默认 / Serena / CGC）
-- module 前缀，`bootstrap-project` 会询问确认
+**Agents:** PM（project-manager）+ Tech Lead（tech-lead）+ DevOps（devops）
+**Gate: 项目设定门。** 用户确认 `PROJECT.md` 和 `rules/tech-selection.md`。确认后进入功能规划。
 
-确认后：脚手架化目录、用改造版 goctl 模板生成后端骨架、写好 `.mcp.json` 与四端配置、`openspec init`，并产出**技术选型文档 `rules/tech-selection.md`**（记录所有选型决定，供整个工作室共享参考）。
+---
 
-## ④ 功能迭代（OpenSpec）
+## ③ 功能规划（Feature Planning，per feature）
 
-每个功能是一次 OpenSpec change：
+每个功能是一个 OpenSpec change。用 `spec-driven` 技能引导。
 
+### ③a 需求细化（PM）
+
+PM 读 PROJECT.md，与用户细化该功能的需求：
+- 功能定位、边界
+- 验收标准（GIVEN/WHEN/THEN）
+- 成功指标
+
+产出 `openspec/changes/<name>/proposal.md`。
+
+**Gate: PRD 签批（PM）。** proposal.md 内容用户认可后进入设计。
+
+### ③b UI/UX 设计（UI Designer）
+
+UI Designer 用设计 MCP（Magic / Figma / shadcn / Ardot）产出：
+- **线框图**（低保真，确认布局和信息架构）
+- **高保真设计稿**（像素级，含颜色/字体/间距）
+- **交互原型**（可点击的流程演示）
+- **状态矩阵**（每个组件的 loading / empty / error / edge case 状态）
+
+设计稿可通过 Figma 链接或导出的截图交付。
+前端/后端实现**不等待设计全部完成**——架构和设计可以并行推进。
+
+**Gate: 设计签批（PM + Tech Lead + UI Designer）。** 所有 screens 设计完成、状态覆盖完整，确认可实现。
+
+### ③c 技术架构（Tech Lead）
+
+Tech Lead 产出：
+- `design.md`（系统的技术方案，含模块划分、组件交互、数据流）
+- API 契约（`.api` / `.proto` 定义）
+- 数据模型（GORM model 定义）
+- 重要架构决策记录（可写入 `design.md` 决策章节）
+
+**Gate: API 冻结（Tech Lead）。** 契约确定后前后端可并行开发。
+
+### ③d 任务拆分（Tech Lead）
+
+Tech Lead 将设计拆解为可执行的任务：
+- 标注依赖关系
+- 标注可并行项
+- 预估相对大小
+
+产出 `tasks.md`。
+
+**Gate: Sprint 承诺（PM + Tech Lead）。** 团队认可当前 scope 可实现。
+
+---
+
+## ④ 实现 + 测试（OpenSpec apply）
+
+前后端并行实现。
+
+### ④a 实现
+
+**Backend Dev** 按 `tasks.md` 和 `.api` 契约，调用 `gozero-add-api` / `gorm-add-model` / `add-worker-task` / `add-infra-adapter` 技能实现后端逻辑。
+
+**Frontend Dev** 按设计稿和 API 契约，调用 `scaffold-frontend` 技能初始化前端，实现页面与组件，对接 API。
+
+**并行前提：** API 契约已冻结（③c 门通过），设计稿已可用（③b 门通过）。
+
+### ④b Code Review
+
+**Code Reviewer** 审查每一个 PR：
+- 分层边界（handler 不写业务逻辑）
+- 基础设施抽象（不走直连 SDK）
+- 统一响应体不入 .api
+- 结构化 JSON 用自定义类型
+- 无硬编码密钥
+
+**Gate: Code Review 通过。** 每个 PR 必须通过 code-reviewer 审查。架构级变更需 Tech Lead 额外确认。
+
+### ④c 持续测试（Test Engineer）
+
+**Test Engineer** 在 spec propose 后就介入，按 proposal.md 的 GIVEN/WHEN/THEN 场景：
+- 生成 Go 单测/集测（`generate-tests`）
+- 生成 E2E 测试（`e2e-runner`）
+- 按需生成负载测试（`load-test`）
+
+测试随实现持续产出和执行，不等到实现全部完成才测。
+Bug 报告直接反馈给对应 developer agent，修复后重新验证。
+
+### ④d UAT（PM）
+
+PM 验证实现是否符合 proposal.md 的验收标准。
+可运行交付物（或 staging 环境）进行验收。
+
+**Gate: UAT 通过（PM）。** 所有 P0/P1 bug 关闭，验收标准满足。
+
+---
+
+## ⑤ 部署 + 发布
+
+### ⑤a 构建部署（DevOps）
+
+DevOps 调用 `scaffold-deploy` 技能生成部署物料：
+- Dockerfile（多阶段构建）
+- docker-compose 编排
+- nginx 转发配置（微服务时）
+- CI 流水线
+
+构建镜像，部署到 staging。
+
+### ⑤b 部署后测试（Test Engineer）
+
+- 冒烟测试：关键链路是否正常
+- E2E 测试：核心用户流程
+- 负载测试（按需）：验证性能阈值
+
+### ⑤c 发布决策（PM + DevOps）
+
+确认条件：
+- UAT 通过
+- 所有 P0/P1 bug 关闭
+- 部署后测试通过
+- 监控仪表盘就绪
+- 回滚预案确认
+
+**Gate: 发布门（PM + DevOps）。** 满足条件即发布。
+
+---
+
+## ⑥ 复盘 + Archive
+
+### ⑥a Archive（Tech Lead）
+
+```bash
+/opsx:archive
 ```
-/opsx:propose <功能>   # 产出 openspec/changes/<name>/{proposal,design,tasks}.md
-/opsx:apply            # 按 tasks 实现
-/opsx:archive          # 合并 delta 到 openspec/specs（真源），并更新 PROJECT.md 对应章节
-```
+- 本次功能的 delta specs 合并到 `openspec/specs/`（系统行为真源）
+- `openspec/changes/<name>/` 标记为已归档
 
-- `openspec/specs/` 是系统当前行为的真源；`changes/` 是提案增量。
-- 后端实现调用 `gozero-add-api` / `gorm-add-model` / `add-worker-task` 等技能。
-- 用 `spec-driven` 技能引导整个循环。
+### ⑥b 回写 PROJECT.md（PM）
 
-## ⑤ UI 设计 + 派发开发
+- 勾选完成的功能项
+- 追加一行变更记录
+- 更新最后更新时间
 
-- **UI 设计**：用第 ③ 步选配的设计 MCP，从 `PROJECT.md`/`tasks.md` 出组件与页面。
-- **派发**：`dispatch-dev` 读 `tasks.md`，把可并行的任务派发给 sub-agents 实现。
-- **兜底**：`code-reviewer` 子 agent 按工作室规范检查边界违规。
+### ⑥c 回顾（团队）
+
+- 本次迭代哪些做得好
+- 哪些可以改进
+- 下一轮开始前调整流程
+
+**循环：** 下一个功能回到第 ③ 步。
 
 ---
 
 ## 产物对照
 
-| 产物 | 粒度 | 何时更新 |
-|------|------|----------|
-| `PROJECT.md` | 全局产品蓝图（由 bootstrap 生成） | 第 ②③ 步创建，每次迭代回写 |
-| `rules/tech-selection.md` | 技术选型决定 | 第 ③ 步创建，选型变更时更新 |
-| `openspec/specs/` | 系统当前行为真源 | 每次 archive |
-| `openspec/changes/<name>/` | 单功能提案 | 每次 propose |
-| 代码 | 实现 | apply / 派发开发 |
+| 产物 | 粒度 | 阶段 | 何时更新 |
+|------|------|------|----------|
+| `PROJECT.md` | 全局产品蓝图 | ② | bootstrap 创建，每次 archive 回写 |
+| `rules/tech-selection.md` | 技术选型记录 | ② | bootstrap 创建，选型变更时更新 |
+| `openspec/changes/<name>/proposal.md` | 单功能需求 | ③a | 每次 propose |
+| `openspec/changes/<name>/design.md` | 技术方案 | ③c | 每次 propose |
+| `openspec/changes/<name>/tasks.md` | 任务清单 | ③d | 每次 propose |
+| `openspec/specs/` | 系统当前行为真源 | ③-⑥ | 每次 archive |
+| 代码 | 实现 | ④ | apply / 派发开发 |
+| 测试代码 | 验证 | ④c | 持续 |
+| deploy 物料 | 部署 | ⑤ | 发布前 |
+| 回顾笔记 | 改进 | ⑥ | 每次迭代结束 |
+
+## 评审门汇总
+
+| 门 | 条件 | 签字方 | 进入 |
+|----|------|-------|------|
+| 项目设定 | PROJECT.md + tech-selection.md 已确认 | 用户 | ③ |
+| PRD 签批 | proposal.md 内容已认可 | PM | ③b |
+| 设计签批 | 所有 UI 状态覆盖+可实施 | PM + Tech Lead + UI Designer | ③c |
+| API 冻结 | API 契约已定义 | Tech Lead | ④ |
+| Sprint 承诺 | tasks scope 团队认可 | PM + Tech Lead | ④ |
+| CR 通过 | 每 PR 审查通过 | Code Reviewer | ④d |
+| UAT 通过 | 验收标准满足 | PM | ⑤ |
+| 发布门 | 测试通过+监控就绪+预案确认 | PM + DevOps | ⑥ |
+
+## 技能与阶段对照
+
+| 技能 | 阶段 |
+|------|------|
+| `bootstrap-project` | ② |
+| `spec-driven` | ③④⑤⑥（贯穿）|
+| `dispatch-dev` | ④a |
+| `gozero-add-api` / `gorm-add-model` / `add-worker-task` / `add-infra-adapter` | ④a |
+| `code-reviewer`（agent 非 skill） | ④b |
+| `generate-tests` / `e2e-runner` / `load-test` | ④c⑤b |
+| `scaffold-frontend` | ④a |
+| `scaffold-deploy` | ⑤a |

@@ -7,7 +7,7 @@
 
 ## 技能（Skills）
 
-技能真源在 `.agents/skills/`（13 个），通过 `.claude/skills -> ../.agents/skills` symlink 供 Claude Code 读取。
+技能真源在 `.agents/skills/`（14 个），通过 `.claude/skills -> ../.agents/skills` symlink 供 Claude Code 读取。
 完整技能清单见 `AGENTS.md` 的「技能」章节。Claude Code 按 `description` 自动匹配触发，
 也可用 `/<skill-name>` 手动调用。
 
@@ -22,11 +22,13 @@
 | `backend-dev` | Go 后端开发 | gozero-add-api, gorm-add-model, add-worker-task, add-infra-adapter |
 | `frontend-dev` | 前端/客户端开发 | scaffold-frontend |
 | `ui-designer` | UI 设计 | （用设计 MCP） |
-| `devops` | 运维部署 | — |
+| `devops` | 运维部署 | scaffold-deploy |
 | `code-reviewer` | 边界审查（只读） | — |
 | `test-engineer` | 测试工程师 | generate-tests, e2e-runner, load-test |
 
 ## 规划与确认
 
 - 非平凡的实现任务优先进入 plan mode，先对齐方案再动手。
-- 涉及派发多个 sub-agents 的功能开发，用 `dispatch-dev` 技能编排。
+- 涉及生命周期各阶段 Gate 的推进，用 `spec-driven` 技能按流程引导。
+- 涉及派发多个 sub-agents 的开发（④a），用 `dispatch-dev` 技能编排。
+- 涉及测试（③a proposal 后就介入），用 `test-engineer` agent 的 `generate-tests` 技能。

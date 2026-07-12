@@ -36,6 +36,10 @@ description: 开新项目时使用。访谈用户产出项目设定文档 PROJEC
    - 是否需要异步任务（队列/定时任务）
    - 是否含 AI 能力（大模型/多模态）
 
+**访谈完成标志**：PROJECT.md 已写入仓库根，且用户已确认当前内容可以接受。
+**在用户确认之前，不要进入阶段 2。** 如果用户不确定功能细节，不要替用户假设，就写已有信息。
+**在用户主动说类似"可以了""继续""开始搭建"之前，不要进入阶段 3。**
+
 把回答写入新建的 `PROJECT.md` 对应章节，更新"最后更新"时间。
 
 ### 阶段 2：推荐并确认技术架构
@@ -51,9 +55,15 @@ description: 开新项目时使用。访谈用户产出项目设定文档 PROJEC
 - **UI 设计 MCP**（可多选）：Magic(21st.dev) / Figma / shadcn。让用户选自己可用的。
 - **代码智能工具**：gopls（默认必装）/ Serena（推荐）/ CodeGraphContext（可选加装）。
 
+**技术选型确认标志**：所有选型已逐项确认，且用户已表示认可。
+**在用户明确说"可以""开始""继续"之前，不要进入阶段 3。**
+如果用户在访谈或选型中说"不确定""你定""先这样"等模糊表述，应主动追问一句：
+"那我就按当前选型开始搭建了，可以吗？" 得到肯定答复后再进入阶段 3。
+
 ### 阶段 3：脚手架化（逐一执行以下步骤）
 
-按确认的架构落地。不手写 goctl 会生成的文件。以下步骤逐一执行，每步完成后向用户报告。
+按确认的架构落地。**不要跳过阶段 1 和阶段 2 直接进入阶段 3**。
+每步完成后向用户报告，等待用户确认后再继续下一步。
 
 **Step 3.1：替换 module 前缀**
 ```bash
@@ -66,20 +76,21 @@ find . -type f \( -name "*.go" -o -name "*.tpl" -o -name "go.mod" \) -exec sed -
 先写 .api 接口定义和 import.api，**不要手动创建 handler/logic/svc 等目录**。
 这些目录由 goctl 在 Step 3.4 中自动生成。
 
-只创建 `{module}/api/desc/` 这一个目录用于存放 .api 文件：
+只创建 `backend/{service_name}/api/desc/` 这一个目录用于存放 .api 文件。
+**单体服务名由用户确认。** 例如用户选择 app、server、admin 等，不要自己定名。
+**整个后端只有一个服务目录，不要按域拆模块。**
 
 ```
 backend/
-└── {module_name}/
+└── {service_name}/
     └── api/desc/
         ├── import.api
         ├── front/
-        │   └── {domain}.api
-        └── admin/
+        │   └── {domain}.api**
 ```
 
 **Step 3.3：写 .api 定义（续）**
-在 `{module}/api/desc/front/{domain}.api` 按规范定义首条接口。
+在 `{service_name}/api/desc/front/{domain}.api` 按规范定义首条接口。
 ```go
 syntax = "v1"
 
@@ -106,13 +117,13 @@ service app-api {
 
 **Step 3.4：调用 gen-api.sh 生成代码**
 ```bash
-backend/scripts/gen-api.sh {module}/api/desc/import.api
+backend/scripts/gen-api.sh {service_name}/api/desc/import.api
 ```
 验证：`cd backend && go build ./...` 通过。
-此时 `{module}/api/internal/` 下已生成 handler/logic/svc/types/config/routes。
+此时 `{service_name}/api/internal/` 下已生成 handler/logic/svc/types/config/routes。
 
 **Step 3.5：实现 logic 占位**
-在生成的 `{module}/api/internal/logic/` 下，找到生成的方法签名，
+在生成的 `{service_name}/api/internal/logic/` 下，找到生成的方法签名，
 在 TODO 位置填入最小实现（至少能返回 success 响应），确保 HTTP 端到端可通。
 
 **Step 3.6：按数据库选型补全驱动**

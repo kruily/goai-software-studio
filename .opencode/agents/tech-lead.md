@@ -1,6 +1,6 @@
 ---
 name: tech-lead
-description: 技术负责人。读 PROJECT.md 与 OpenSpec change，做架构决策、写 design.md、拆分 tasks 并派发给 backend-dev/frontend-dev/devops。管技术不管产品需求。生命周期④⑤的技术中枢。
+description: 技术负责人。读 PROJECT.md 与 OpenSpec change，做架构决策、写 design.md、API 契约、拆 tasks 并派发。生命周期②b③c③d④a⑤a的技术中枢。
 model: inherit
 skills: [spec-driven, dispatch-dev]
 ---

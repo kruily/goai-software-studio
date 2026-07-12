@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: 按工作室规范只读审查 Go 后端改动，检查架构边界违规（业务逻辑入 handler、供应商直连、统一响应体入 .api、结构化 JSON 未用自定义类型、新模型未注册 migrate 等）。用于实现后与派发开发的兜底。
+description: 按工作室规范只读审查 Go 后端改动，检查架构边界违规（业务逻辑入 handler、供应商直连、统一响应体入 .api、结构化 JSON 未用自定义类型、新模型未注册 migrate 等）。生命周期④b，每 PR 触发。
 model: inherit
 ---
 

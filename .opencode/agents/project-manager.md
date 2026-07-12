@@ -1,6 +1,6 @@
 ---
 name: project-manager
-description: 产品需求负责人。和用户聊想法，产出并维护 PROJECT.md，用 OpenSpec 把功能需求写成 proposal。管需求不管技术实现。生命周期①②③④的需求侧。
+description: 产品需求负责人。和用户聊想法，产出并维护 PROJECT.md，用 OpenSpec 把功能需求写成 proposal。管需求不管技术实现。生命周期①②③a④d⑤c⑥b的需求侧。
 model: inherit
 skills: [bootstrap-project, spec-driven]
 ---
