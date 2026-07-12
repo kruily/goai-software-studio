@@ -61,32 +61,25 @@ find . -type f \( -name "*.go" -o -name "*.tpl" -o -name "go.mod" \) -exec sed -
 ```
 验证：`cd backend && go build ./...` 通过。
 
-**Step 3.2：创建首个模块目录（单体选择 user 为模板）**
+**Step 3.2：写 .api 定义（不手建目录）**
+
+先写 .api 接口定义和 import.api，**不要手动创建 handler/logic/svc 等目录**。
+这些目录由 goctl 在 Step 3.4 中自动生成。
+
+只创建 `{module}/api/desc/` 这一个目录用于存放 .api 文件：
+
 ```
 backend/
-└── {module_name}/          # 如 user、order
-    ├── api/desc/import.api  # 空 import.api
-    ├── api/desc/front/      # .api 定义文件目录
-    ├── api/etc/             # go-zero 配置 yaml
-    ├── api/internal/config/ # 配置代码
-    ├── api/internal/handler/
-    ├── api/internal/logic/
-    ├── api/internal/svc/
-    ├── api/internal/types/
-    ├── api/internal/middleware/
-    ├── mq/internal/handler/  # MQ 消费者（手写，goctl 不生成）
-    ├── mq/internal/logic/
-    ├── mq/internal/svc/
-    ├── mq/internal/config/
-    ├── cron/internal/handler/ # 定时任务（手写，goctl 不生成）
-    ├── cron/internal/logic/
-    ├── cron/internal/svc/
-    └── cron/internal/config/
+└── {module_name}/
+    └── api/desc/
+        ├── import.api
+        ├── front/
+        │   └── {domain}.api
+        └── admin/
 ```
-新建后不用手写细节，让 goctl 负责生成 handler/logic/svc/types 骨架。
 
-**Step 3.3：写 .api 定义**
-在 `{module}/api/desc/front/{domain}.api` 按规范定义首条接口（例如 `post /getProfile`）：
+**Step 3.3：写 .api 定义（续）**
+在 `{module}/api/desc/front/{domain}.api` 按规范定义首条接口。
 ```go
 syntax = "v1"
 

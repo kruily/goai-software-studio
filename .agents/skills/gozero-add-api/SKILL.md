@@ -22,9 +22,24 @@ description: 当需要为后端新增一个 REST API 模块或给已有模块加
 
 ## 执行流程
 
+### 0. 前置：目录确认
+
+**不要手动创建模块目录**。`mkdir` 创建的目录结构与 goctl 生成的不一致。
+如果模块目录还不存在，先运行 gen-api.sh 让它通过 goctl 生成初始结构：
+
+```bash
+# 首次生成会报 .api 文件不存在的错误，goctl 会提示需要哪些目录。
+# 此时只写 .api 文件和 import.api，然后运行：
+backend/scripts/gen-api.sh {module}/api/desc/import.api
+# goctl 会自动创建 handler/logic/svc/types/config/routes 等目录和文件。
+```
+
+如果 goctl 提示 desc 目录不存在，就只创建 `{module}/api/desc/` 这一个目录，其余让 goctl 生成。
+
 ### 1. 写 .api
 
 - 在 `{module}/api/desc/front/{域}.api`（或 `admin/`）定义 type 与 service。
+- **必须先写 .api 文件**，再用 gen-api.sh 生成代码。不手动创建 handler/logic/svc/types 目录。
 - 用 `@server(group: {域}, prefix: /api/v1/front/{域})`。全部使用 POST，路径为 camelCase 动词，如 `post /getProfile`。
 - **不使用 go-zero 内建 jwt 中间件**，在 `@server` 中用 `middleware:` 注解挂载 studio 自定义鉴权中间件。
 
@@ -32,9 +47,9 @@ description: 当需要为后端新增一个 REST API 模块或给已有模块加
 
 - 在 `{module}/api/desc/import.api` 中 `import "front/{域}.api"`。
 
-### 3. 生成代码
+### 3. 生成代码（只写 .api，不手建目录）
 
-用生成脚本（封装了改造版模板与校验插件），从仓库根运行：
+用生成脚本（封装了改造版模板与校验插件），从仓库根运行。**脚本会自动创建 handler/logic/svc 等目录**：
 
 ```bash
 backend/scripts/gen-api.sh               # 默认 user 模块
