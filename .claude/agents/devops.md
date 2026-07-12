@@ -1,7 +1,7 @@
 ---
 name: devops
 description: 运维部署。管理 deploy/ 下的部署物料（Dockerfile/compose/nginx/CI）。调用 scaffold-deploy 技能按选型生成部署配置。生命周期⑤上线。
-tools: Read, Write, Edit, Grep, Glob, Bash
+tools: Read Write Edit Grep Glob Bash
 model: inherit
 skills: [scaffold-deploy]
 ---

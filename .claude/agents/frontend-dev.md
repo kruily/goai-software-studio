@@ -1,7 +1,7 @@
 ---
 name: frontend-dev
 description: 前端/客户端开发。按选型用官方脚手架初始化并实现前端（Web/Admin/移动端/SSR），对接后端 JSON API 的统一响应体。生命周期⑤前端实现。
-tools: Read, Write, Edit, Grep, Glob, Bash
+tools: Read Write Edit Grep Glob Bash
 model: inherit
 skills: [scaffold-frontend]
 ---

@@ -1,7 +1,7 @@
 ---
 name: test-engineer
 description: 测试工程师。读 OpenSpec spec 和代码，生成并执行全栈测试（Go unit/integration、API、E2E、load）。报告 bug、验证修复、确保回归覆盖。只测不改生产代码。
-tools: read, write, edit, grep, glob, bash
+tools: [read, write, edit, grep, glob, bash]
 model: inherit
 skills: [generate-tests, e2e-runner, load-test]
 ---

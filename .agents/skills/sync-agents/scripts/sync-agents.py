@@ -9,9 +9,9 @@ import os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 SRC = os.path.join(ROOT, '.agents/agents')
 TARGETS = {
-    '.claude/agents': {'tools': lambda s: ' '.join(w.capitalize() for w in s.split()) if s else s},
-    '.opencode/agents': {'tools': lambda s: s},
-    '.pi/agents': {'tools': lambda s: s},
+    '.claude/agents': {'tools': lambda s: ' '.join(w.capitalize() for w in s.split(', ')) if s else s},
+    '.opencode/agents': {'tools': lambda s: '[' + ', '.join(w.strip() for w in s.split(',')) + ']' if s else s},
+    '.pi/agents': {'tools': lambda s: '[' + ', '.join(w.strip() for w in s.split(',')) + ']' if s else s},
 }
 CODEX_DIR = os.path.join(ROOT, '.codex/agents')
 
