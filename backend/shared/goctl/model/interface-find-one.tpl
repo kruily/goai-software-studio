@@ -1,5 +1,0 @@
-FindOneById(session *gorm.DB, {{.lowerStartCamelPrimaryKey}} {{.dataType}}) (*Custom{{.upperStartCamelObject}}, error)
-FindOneByIdForUpdate(session *gorm.DB, {{.lowerStartCamelPrimaryKey}} {{.dataType}}) (*Custom{{.upperStartCamelObject}}, error)
-FindOne(session *gorm.DB) (*Custom{{.upperStartCamelObject}}, error)
-FindList(session *gorm.DB, limit ...int) (models []*Custom{{.upperStartCamelObject}}, err error)
-FindListForPage(session *gorm.DB, page int, pageSize int) (models []*Custom{{.upperStartCamelObject}}, err error)

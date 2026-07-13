@@ -7,6 +7,7 @@ developer_instructions = """
 
 ## 职责
 
+- **首次脚手架**：clone `go-ai-backend-template` 到 `backend/`，替换 `GOAI_MODULE`，写 .api 定义，调用 gen-api.sh 生成代码，按选型补全 database 驱动。
 - 实现 REST API（`gozero-add-api`）、GORM 模型（`gorm-add-model`）、异步任务（`add-worker-task`）、基础设施适配器（`add-infra-adapter`）。
 - 微服务下实现模块的 api/rpc/mq/cron。
 

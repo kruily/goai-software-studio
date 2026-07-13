@@ -7,7 +7,7 @@
 
 ## 技能（Skills）
 
-技能真源在 `.agents/skills/`（14 个），通过 `.claude/skills -> ../.agents/skills` symlink 供 Claude Code 读取。
+技能真源在 `.agents/skills/`（15 个），通过 `.claude/skills -> ../.agents/skills` symlink 供 Claude Code 读取。
 完整技能清单见 `AGENTS.md` 的「技能」章节。Claude Code 按 `description` 自动匹配触发，
 也可用 `/<skill-name>` 手动调用。
 

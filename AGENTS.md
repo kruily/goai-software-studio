@@ -33,10 +33,10 @@
 ├── rules/                            # 工作室固定规范文档（生命周期/Gate/agent/后端/前端/测试）
 ├── .agents/skills/                  # 工具型技能真源（Agent Skills 标准格式，四端通用）
 ├── .claude/skills -> ../.agents/skills  # symlink，让 Claude Code 读到同一批技能
-├── backend/                         # Go 后端（go-zero），见 backend/README.md
+├── backend/                         # Go 后端（clone go-ai-backend-template 后存在），见 backend/README.md
 ├── frontend/ admin-web/ mobile/ ... # 前端/客户端，平铺，由脚手架生成
 ├── deploy/                          # 运维部署（docker/compose/k8s/nginx/ci/env）
-└── backend/scripts/             # setup-agents.sh / gen-*.sh
+└── backend/scripts/             # gen-*.sh（来自 go-ai-backend-template）
 ```
 
 ## 后端开发规范
@@ -44,7 +44,7 @@
 后端**框架固定为 go-zero**（`shared/goctl` 代码生成模板与 `shared/pkg` 抽象均围绕它）。
 但**具体技术栈由每个项目自行选型**——数据库、消息队列、对象存储、前端形态等，
 由 `bootstrap-project` 访谈确定并写入**技术选型文档 `rules/tech-selection.md`**（供整个工作室共享参考）。
-本工作室不预设这些选型；此处只规定 go-zero 服务应如何开发。完整规范见 `rules/backend-spec.md` 与 `backend/README.md`。
+本工作室不预设这些选型；此处只规定 go-zero 服务应如何开发。完整规范见 `rules/backend-spec.md` 与 `backend/README.md`（clone `go-ai-backend-template` 后存在）。
 
 - **只手写两类东西**：`backend/shared/`（pkg 抽象 + utils + 改造版 goctl 模板）与 `.api`/`.proto`/`model`。其余全部由 `goctl` 生成，**不手写 goctl 生成物**（main/svc/handler/routes/config 等）。
 - **基础设施走抽象**：业务代码只依赖 `shared/pkg` 的接口（`storage.Storage`、`taskqueue.TaskQueue` 等），不直接依赖具体厂商 SDK。换厂商用 `add-infra-adapter` 技能，业务零改动。
@@ -57,6 +57,10 @@
 
 ## 技能（Skills）
 
+**核心模型：技能驱动对话，agent 承载执行。** 交互式对话（需求访谈、确认、推进）由技能在主线程承载；
+agent 是被委派的执行单元，在隔离上下文跑完返回，不与用户直接对话。入口是 `studio` 技能。
+详见 `rules/agents-guide.md`。
+
 工具型技能采用 **Agent Skills 开放标准**（`SKILL.md` 格式），真源放 `.agents/skills/{name}/SKILL.md`，四端通用：
 
 - **Codex / opencode / pi** 原生读取 `.agents/skills/`（零配置）。
@@ -65,6 +69,7 @@
 
 | 阶段 | 技能 | 用途 |
 |------|------|------|
+| 入口 | `studio` | 总入口向导，判断当前阶段并引导到对应技能 |
 | 项目设定/架构 | `bootstrap-project` | 访谈→PROJECT.md→定架构→脚手架→写四端配置→产出 tech-selection.md→init openspec |
 | 全程 | `sync-agents` | AGENTS.md 真源同步/校验到四端配置 |
 | 全程 | `author-skill` | 编写项目自己的业务技能 |
@@ -84,7 +89,7 @@
 
 ## 常用命令
 
-在 `backend/` 下：
+在 `backend/` 下（clone `go-ai-backend-template` 后）：
 
 ```bash
 go build ./...                 # 构建（提交前必须通过）

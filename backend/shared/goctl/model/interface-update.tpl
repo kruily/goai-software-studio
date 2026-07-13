@@ -1,1 +1,0 @@
-Updates(session *gorm.DB, newData interface{}) error

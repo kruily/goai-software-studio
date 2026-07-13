@@ -21,13 +21,14 @@ bootstrap 之后，项目不会立刻"跑起来"给你看。
 ├──────────────────────────────────────────────────────┤
 │  AGENTS.md / CLAUDE.md          规范真源 + Claude 桥接│
 │  .agents/agents/* （8 个 agent 定义）                  │
-│  .agents/skills/* （14 个工具型技能）                       │
+│  .agents/skills/* （15 个工具型技能）                       │
 │  rules/*（12 份规范文档）                                   │
 │  .mcp.json / opencode.json / .codex/* / .pi/*（四端配置）│
 │  LICENSE / .gitignore                 │
 ├──────────────────────────────────────────────────────┤
-│  Layer 2：按需调整（模板的代码层）                     │
-│  模板提供可编译的骨架，启动后根据选型确认细节           │
+│  Layer 2：来自后端模板（clone 后存在）                        │
+│  这些文件来自独立模板 `github.com/kruily/go-ai-backend-template`，  │
+│  由 bootstrap-project 在技术选型确认后 clone 到项目 backend/ 下    │
 ├──────────────────────────────────────────────────────┤
 │  backend/go.mod                  module 占位 GOAI_MODULE│
 │  backend/shared/pkg/             基础设施抽象接口（接口不动，实现按选型）│
@@ -38,10 +39,9 @@ bootstrap 之后，项目不会立刻"跑起来"给你看。
 └──────────────────────────────────────────────────────┘
 
 注意：
-- Layer 2 中的文件在克隆后即「可编译」（go build pass），
-  "可编译"≠"可直接运行"——部分代码（如 database 驱动、asynq 消费者）的
-  具体实现由 bootstrap-project 按选型填充。
-- GOAI_MODULE 是一个显式占位，启动运行时需要用 sed 或 AI 的 Edit 工具替换为实际 module 前缀。
+- Layer 2 来自独立模板仓库 `github.com/kruily/go-ai-backend-template`，
+  不在 harness 层中预建。`go build` 验证在 clone 后做。
+- GOAI_MODULE 是一个显式占位，clone 后用 sed 替换为实际 module 前缀。
 
 ---
 
@@ -53,9 +53,9 @@ bootstrap 之后，项目不会立刻"跑起来"给你看。
 |------|------|
 | `ROADMAP.md` | 工作室自身的开发计划，不进 agent 规范 |
 | `PROJECT.md` | bootstrap 后由 AI 生成的项目设定文件，不存在于模板中 |
-| `docs/` | bootstrap 后可能放项目产出文档（如 `tech-selection.md` 在 `rules/` 中） |
+| `docs/` | bootstrap 后项目产出文档（如 tech-selection.md 等） |
 | `deploy/` | 仅 deploy/README.md（约束说明），具体物料由 scaffold-deploy 技能生成 |
-| `backend/` 下的模块目录 | bootstrap 按选型由 goctl 生成 |
+| `backend/` 下的模块目录 | bootstrap 按选型由 goctl 生成，代码来自 `go-ai-backend-template` |
 
 
 > 如果你在 rules/ 中看到了 ROADMAP.md，知道它已移到仓库根。

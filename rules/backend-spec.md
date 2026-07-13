@@ -5,9 +5,9 @@
 
 ## 1. 手写 vs 生成
 
-**手写的东西：**
+**Hand的东西：**
 
-1. **`backend/shared/`** — 跨模块复用的手写资产：
+1. **模板克隆后的 `backend/shared/`** — 跨模块复用的手写资产（来自 `go-ai-backend-template`，clone 后存在）：
    - `shared/pkg/` 基础设施**抽象接口**（storage、taskqueue、database、redisx、jwtx）。
    - `shared/utils/` 工具（response、errorx、contexts、consts）。
    - `shared/goctl/` 改造版代码生成模板。
@@ -17,7 +17,7 @@
    - `mq` 消费者（handler + logic，goctl 不生成，全手写）。
    - `cron` 定时任务（handler + logic，goctl 不生成，全手写）。
 
-**goctl 生成、不手改的东西：** `internal/` 下的 handler（api）、svc、types、config、routes、`{module}.api.go`/`{module}.rpc.go` 入口、pb 文件。用脚本 `backend/scripts/gen-*.sh` 生成。
+**goctl 生成、不手改的东西：** `internal/` 下的 handler（api）、svc、types、config、routes、`{module}.api.go`/`{module}.rpc.go` 入口、pb 文件。用脚本 `backend/scripts/gen-*.sh` 生成。这些脚本在 clone `go-ai-backend-template` 后即存在。
 
 > logic 是"生成空壳 + 手写填肉"：goctl 生成方法签名与 `todo` 占位，业务在其中手写。mq/cron 无 goctl 生成，整套手写（结构见 §7）。
 
@@ -28,10 +28,10 @@
 ### 结构
 
 ```
-backend/
+backend/                       # clone go-ai-backend-template 后存在
 ├── shared/              # 跨模块手写资产（pkg、utils、goctl）
 ├── model/               # GORM 模型
-├── scripts/             # 生成/初始化脚本
+├── scripts/             # 生成/初始化脚本（gen-api.sh 等）
 └── {module}/            # 业务模块（如 user、order）
     ├── api/             # REST 服务（goctl 生成 + 手写 logic）
     │   ├── desc/        # .api 定义
@@ -176,7 +176,7 @@ mq 与 cron 都是**全手写**（goctl 不生成），沿用 go-zero 分层：`
 
 ## 8. 代码生成脚本
 
-在 `backend/` 下：
+在 `backend/` 下（clone `go-ai-backend-template` 后存在）：
 
 ```bash
 backend/scripts/gen-api.sh [user/api/desc/import.api]    # 生成 REST（改造版模板）
@@ -184,7 +184,9 @@ backend/scripts/gen-rpc.sh <proto> <out>                  # 生成 zRPC（微服
 backend/scripts/gen-model.sh <pg|mysql> <dsn> <table> <out>   # 生成 model
 ```
 
-均用 `--home ./shared/goctl`。封装在 `gozero-add-api` / `gorm-add-model` 技能。
+通用 `--home ./shared/goctl`。封装在 `gozero-add-api` / `gorm-add-model` 技能。
+
+> `scripts/` 目录来自后端模板 `github.com/kruily/go-ai-backend-template`，不直接在 harness 层提供。
 
 ## 9. 命名与约定
 

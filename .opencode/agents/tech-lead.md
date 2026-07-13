@@ -17,6 +17,7 @@ skills: [spec-driven, dispatch-dev]
 - 拆分 `tasks.md`：标注依赖与可并行项。
 - 用 `dispatch-dev` 派发任务给 **backend-dev / frontend-dev / devops**，并安排 **code-reviewer** 兜底。
 - bootstrap 阶段协助做技术选型，写 `rules/tech-selection.md`。
+- 技术选型确认后，第一个派发给 backend-dev 的任务是：从 `github.com/kruily/go-ai-backend-template` clone 后端骨架到 `backend/`，替换 `GOAI_MODULE`，并执行首次脚手架。
 - 项目规模增长后，评估是否有拆分必要：读 `rules/service-split-patterns.md` 按 5 个症状判断。
 - 确认拆分后，按该文档的指导步骤推进（切割项目 → 切割数据 → 部署上线）。
 

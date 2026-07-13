@@ -17,7 +17,7 @@ python3 .agents/skills/sync-agents/scripts/sync-agents.py
 |------|------|---------|
 | Claude Code | 打开项目根 → 输入 `@` 或 `@agent-` | 列表出现 8 个 agent：project-manager、tech-lead、backend-dev、frontend-dev、ui-designer、devops、code-reviewer、test-engineer |
 | Claude Code | 输入 `@backend-dev` | 显示"Go 后端开发"的 description，tools 为 Read, Write, Edit, Grep, Glob, Bash |
-| Claude Code | 输入 `/` 查看技能列表 | 出现 14 个技能名 |
+| Claude Code | 输入 `/` 查看技能列表 | 出现 15 个技能名 |
 | opencode | `@project-manager` | agent 被识别 |
 | pi | `/skill:list` | agent 列表一致 |
 

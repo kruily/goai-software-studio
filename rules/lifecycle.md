@@ -5,10 +5,10 @@
 ```
 ① 想法
    ↓
-② 项目设定（bootstrap-project）
-   ├── PM 需求访谈 → PROJECT.md
-   └── Tech Lead 技术选型 + 脚手架 + openspec init
-   ↓  ← Gate: 项目就绪（用户确认 PROJECT.md + 选型）
+② 项目设定
+   ├── ②a 需求访谈（studio 技能）→ PROJECT.md  ← Gate: 需求确认（用户签批 PROJECT.md）
+   └── ②b 技术选型 + 脚手架（bootstrap-project 技能）→ tech-selection.md + 后端骨架  ← Gate: 选型确认
+   ↓  ← Gate: 项目就绪（PROJECT.md + 选型均已确认）
 ③ 功能规划（per feature，OpenSpec propose）
    ├── ③a PM 需求细化 → proposal.md  ← Gate: PRD 签批
    ├── ③b UI Designer 设计 → 线框/高保真/原型  ← Gate: 设计签批
@@ -46,14 +46,16 @@
 
 ## ② 项目设定（Project Setup）
 
-运行 `bootstrap-project`。
+拆为两步，中间有确认门。
 
-**②a PM 需求访谈：** 访谈产品定位、目标用户、核心功能、非功能约束，产出 `PROJECT.md`。
-**②b Tech Lead 技术选型咨询：** 逐项推荐并确认架构（单体/微服务）、数据库、队列、存储、前端形态、UI 设计 MCP、module 前缀。
-**②c 初始化：** 脚手架化后端目录、替换 `GOAI_MODULE`、写 `.mcp.json` 与四端配置、`openspec init`、产出 `rules/tech-selection.md`。
+**②a 需求访谈（studio 技能）：** 与用户纯聊需求，不讨论技术。产出 `PROJECT.md`。
+**Gate: 需求确认。** 用户确认 PROJECT.md 内容可接受后才能进入技术选型。
+
+**②b 技术选型 + 脚手架（bootstrap-project 技能）：** 逐项推荐并确认架构、数据库、队列、存储、前端、设计 MCP、module 前缀。确认后脚手架化、替换 `GOAI_MODULE`、写四端配置、初始化 openspec。产出 `rules/tech-selection.md`。
+**Gate: 选型确认。** 所有选型确认后才创建文件。
 
 **Agents:** PM（project-manager）+ Tech Lead（tech-lead）+ DevOps（devops）
-**Gate: 项目设定门。** 用户确认 `PROJECT.md` 和 `rules/tech-selection.md`。确认后进入功能规划。
+**Gate: 项目就绪。** `PROJECT.md` 和 `rules/tech-selection.md` 均已确认。确认后进入功能规划。
 
 ---
 

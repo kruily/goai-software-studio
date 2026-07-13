@@ -1,7 +1,26 @@
 # Agent 指南
 
-工作室是 **agent 驱动**的：7 个专职 agent 各司其职，沿开发生命周期协作。
+工作室是 **agent 驱动**的：8 个专职 agent 各司其职，沿开发生命周期协作。
 定义真源在 `.agents/agents/{name}.md`，由 `sync-agents` 生成到四端（Claude/Codex/opencode/pi）。
+
+## 核心模型：技能驱动对话，agent 承载执行
+
+这是理解整个工作室的关键。多数 AI agent 平台里，专职 agent 是 **subagent**——
+它们在隔离上下文里跑完返回，**结构上无法与用户持续对话**（Claude Code 的 subagent
+连 `AskUserQuestion` 都用不了）。因此工作室采用如下模型：
+
+- **交互对话由技能在主线程承载。** `studio`（需求向导）、`bootstrap-project`（技术选型）、`spec-driven`（功能规划）这些技能
+  在主线程运行，直接和用户来回访谈、确认、推进。它们就是 PM / tech-lead 等交互角色的"人格"。
+- **agent 是被委派的执行单元。** backend-dev、frontend-dev、devops 等在隔离上下文执行
+  非交互的工作，跑完返回结果。用户与它们不直接对话。
+- **入口是 `studio` 技能**（`/studio`），它判断用户当前阶段并引导到对应技能。
+
+所以"某个 agent 和用户对话"的实质，是"该 agent 对应的技能在主线程和用户对话"。
+例如 PM 的交互体现在 `bootstrap-project` / `spec-driven` 技能里，而 `project-manager`
+agent 定义本身主要用于被委派做非交互分析（如整理需求文档）。
+
+**对话式协作原则**（不做 auto-pilot）：提问 → 给 2-4 个选项及利弊 → 用户决定 →
+起草 → 得到批准后才落地。
 
 ## 阵容与职责
 
