@@ -6,13 +6,13 @@
 ① 想法
    ↓
 ② 项目设定
-   ├── ②a 需求访谈（studio 技能）→ PROJECT.md  ← Gate: 需求确认（用户签批 PROJECT.md）
-   └── ②b 技术选型 + 脚手架（bootstrap-project 技能）→ tech-selection.md + 后端骨架  ← Gate: 选型确认
-   ↓  ← Gate: 项目就绪（PROJECT.md + 选型均已确认）
+   ├── ②a 需求访谈（studio 技能）→ PROJECT.md  ← Gate: 需求确认
+   └── ②b 管道铺设（studio 技能）→ openspec init + 四端配置  ← Gate: 管道就绪
+   ↓  ← Gate: 项目就绪（PROJECT.md 已确认）
 ③ 功能规划（per feature，OpenSpec propose）
    ├── ③a PM 需求细化 → proposal.md  ← Gate: PRD 签批
    ├── ③b UI Designer 设计 → 线框/高保真/原型  ← Gate: 设计签批
-   ├── ③c Tech Lead 技术架构 → design.md + API 契约  ← Gate: API 冻结
+   ├── ③c Tech Lead 技术架构（含选型）→ design.md + API 契约 + tech-selection.md  ← Gate: API 冻结
    └── ③d Tech Lead 任务拆分 → tasks.md  ← Gate: Sprint 承诺
    ↓  ← Gate: 规划完成
 ④ 实现 + 测试（OpenSpec apply）
@@ -49,13 +49,13 @@
 拆为两步，中间有确认门。
 
 **②a 需求访谈（studio 技能）：** 与用户纯聊需求，不讨论技术。产出 `PROJECT.md`。
-**Gate: 需求确认。** 用户确认 PROJECT.md 内容可接受后才能进入技术选型。
+**Gate: 需求确认。** 用户确认 PROJECT.md 内容可接受后才能进入功能规划。
 
-**②b 技术选型 + 脚手架（bootstrap-project 技能）：** 逐项推荐并确认架构、数据库、队列、存储、前端、设计 MCP、module 前缀。确认后脚手架化、替换 `GOAI_MODULE`、写四端配置、初始化 openspec。产出 `rules/tech-selection.md`。
-**Gate: 选型确认。** 所有选型确认后才创建文件。
+**②b 管道铺设（studio 技能）：** 初始化 openspec、写四端配置、回写 PROJECT.md 时间戳。**不做技术选型、不创建代码、不推荐架构。** 技术选型由 tech-lead 在功能规划阶段（③c）完成。
+**Gate: 管道就绪。** openspec 目录已建、四端配置已同步。确认后进入功能规划。
 
-**Agents:** PM（project-manager）+ Tech Lead（tech-lead）+ DevOps（devops）
-**Gate: 项目就绪。** `PROJECT.md` 和 `rules/tech-selection.md` 均已确认。确认后进入功能规划。
+**Agents:** PM（project-manager）
+**Gate: 项目就绪。** `PROJECT.md` 已确认、管道已铺设。确认后进入功能规划。
 
 ---
 
@@ -89,10 +89,11 @@ UI Designer 用设计 MCP（Magic / Figma / shadcn / Ardot）产出：
 
 ### ③c 技术架构（Tech Lead）
 
-Tech Lead 产出：
+Tech Lead 做技术选型推荐与确认，并产出：
+- `rules/tech-selection.md`（技术选型记录：架构、数据库、队列、存储、前端、设计 MCP、module 前缀）
 - `design.md`（系统的技术方案，含模块划分、组件交互、数据流）
-- API 契约（`.api` / `.proto` 定义）
-- 数据模型（GORM model 定义）
+- API 契约（`.api` / `.proto` 定义，遵循 gozero-add-api 规范）
+- 数据模型（GORM model 定义，不嵌套 BaseModel）
 - 重要架构决策记录（可写入 `design.md` 决策章节）
 
 **Gate: API 冻结（Tech Lead）。** 契约确定后前后端可并行开发。
@@ -213,8 +214,8 @@ DevOps 调用 `scaffold-deploy` 技能生成部署物料：
 
 | 产物 | 粒度 | 阶段 | 何时更新 |
 |------|------|------|----------|
-| `PROJECT.md` | 全局产品蓝图 | ② | bootstrap 创建，每次 archive 回写 |
-| `rules/tech-selection.md` | 技术选型记录 | ② | bootstrap 创建，选型变更时更新 |
+| `PROJECT.md` | 全局产品蓝图 | ② | studio 创建，每次 archive 回写 |
+| `rules/tech-selection.md` | 技术选型记录 | ② | studio 管道铺设时创建，选型变更时更新 |
 | `openspec/changes/<name>/proposal.md` | 单功能需求 | ③a | 每次 propose |
 | `openspec/changes/<name>/design.md` | 技术方案 | ③c | 每次 propose |
 | `openspec/changes/<name>/tasks.md` | 任务清单 | ③d | 每次 propose |
@@ -241,7 +242,7 @@ DevOps 调用 `scaffold-deploy` 技能生成部署物料：
 
 | 技能 | 阶段 |
 |------|------|
-| `bootstrap-project` | ② |
+| `studio` | ② |
 | `spec-driven` | ③④⑤⑥（贯穿）|
 | `dispatch-dev` | ④a |
 | `gozero-add-api` / `gorm-add-model` / `add-worker-task` / `add-infra-adapter` | ④a |

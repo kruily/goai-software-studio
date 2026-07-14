@@ -21,7 +21,7 @@ openspec/
 
 ## 安装与初始化
 
-模板**不预装** OpenSpec（它是 npm 工具）。由 `bootstrap-project` 在第 ③ 步执行，或手动：
+模板**不预装** OpenSpec（它是 npm 工具）。由 `studio` 技能在管道铺设阶段执行，或手动：
 
 ```bash
 npm install -g @fission-ai/openspec@latest   # 需 Node 20.19+

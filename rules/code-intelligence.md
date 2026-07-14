@@ -1,6 +1,6 @@
 # 代码智能工具
 
-让 AI agent「看懂」代码结构的工具。通过 `.mcp.json`（四端共享）配置，由 `bootstrap-project` 按需启用。
+让 AI agent「看懂」代码结构的工具。通过 `.mcp.json`（四端共享）配置，由 `studio` 技能按需启用。
 **导航优先用这些语义工具，而非全仓 grep。**
 
 ## 三层

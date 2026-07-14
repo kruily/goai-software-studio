@@ -1,5 +1,5 @@
 {
-  "$comment": "共享 MCP 配置。Claude Code 读 .mcp.json；其余 agent 由各自配置引用同一批服务。由 bootstrap-project 按需增删（如设计类 MCP）。",
+  "$comment": "共享 MCP 配置。Claude Code 读 .mcp.json；其余 agent 由各自配置引用同一批服务。由 studio 技能按需增删（如设计类 MCP）。",
   "mcpServers": {
     "gopls": {
       "$comment": "Go 官方 LSP 的 MCP 模式（gopls v0.20+）。提供定义/引用/包 API/诊断等语义导航。需先 go install golang.org/x/tools/gopls@latest。",

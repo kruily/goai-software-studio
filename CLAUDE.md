@@ -17,7 +17,7 @@
 
 | agent | 职责 | 绑定技能 |
 |-------|------|---------|
-| `project-manager` | 产品需求负责人 | bootstrap-project, spec-driven |
+| `project-manager` | 产品需求负责人 | studio, spec-driven |
 | `tech-lead` | 技术负责人 | spec-driven, dispatch-dev |
 | `backend-dev` | Go 后端开发 | gozero-add-api, gorm-add-model, add-worker-task, add-infra-adapter |
 | `frontend-dev` | 前端/客户端开发 | scaffold-frontend |

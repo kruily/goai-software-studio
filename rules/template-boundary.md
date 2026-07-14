@@ -28,7 +28,7 @@ bootstrap 之后，项目不会立刻"跑起来"给你看。
 ├──────────────────────────────────────────────────────┤
 │  Layer 2：来自后端模板（clone 后存在）                        │
 │  这些文件来自独立模板 `github.com/kruily/go-ai-backend-template`，  │
-│  由 bootstrap-project 在技术选型确认后 clone 到项目 backend/ 下    │
+│  由 studio 在技术选型确认后 clone 到项目 backend/ 下    │
 ├──────────────────────────────────────────────────────┤
 │  backend/go.mod                  module 占位 GOAI_MODULE│
 │  backend/shared/pkg/             基础设施抽象接口（接口不动，实现按选型）│
